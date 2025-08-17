@@ -23,30 +23,23 @@ namespace MetasAhorro.Pages.Goals
 
         public void OnGet()
         {
-            // Garantiza que el navegador ya tenga OwnerKey
             _ = GetOrCreateOwnerKey();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // Asigna dueño anónimo por cookie
             Input.OwnerKey = GetOrCreateOwnerKey();
 
-            // IMPORTANTE: el binder ya marcó OwnerKey como requerido.
-            // Lo quitamos del ModelState para que no bloquee la validación.
-            ModelState.Remove("Input.OwnerKey"); // <- clave del arreglo
+            ModelState.Remove("Input.OwnerKey"); // clave del areglo
 
-            // Normalizaciones
             Input.Title = Input.Title?.Trim() ?? string.Empty;
             Input.Description = string.IsNullOrWhiteSpace(Input.Description) ? null : Input.Description.Trim();
 
-            // Fechas "solo fecha"
             if (Input.StartDate == default) Input.StartDate = DateTime.Today;
             else Input.StartDate = Input.StartDate.Date;
 
             Input.Deadline = Input.Deadline.Date;
 
-            // Validaciones de negocio
             if (string.IsNullOrWhiteSpace(Input.Title))
                 ModelState.AddModelError(nameof(Input.Title), "El título es obligatorio.");
 
@@ -82,13 +75,13 @@ namespace MetasAhorro.Pages.Goals
                 return existing;
             }
 
-            var newKey = Convert.ToHexString(RandomNumberGenerator.GetBytes(16)); // 32 chars hex
+            var newKey = Convert.ToHexString(RandomNumberGenerator.GetBytes(16)); 
 
             Response.Cookies.Append(OwnerCookieName, newKey, new CookieOptions
             {
                 Expires = DateTimeOffset.UtcNow.AddYears(2),
                 HttpOnly = true,
-                Secure = Request.IsHttps,    // en http local no bloquea
+                Secure = Request.IsHttps,    
                 SameSite = SameSiteMode.Lax,
                 IsEssential = true
             });
