@@ -42,12 +42,13 @@ Aplicación web en **ASP.NET Core Razor Pages** para gestionar y visualizar meta
    git clone https://github.com/oydrizzy/MetasAhorro.git
    cd MetasAhorro
 
-2. **Configurar la base de datos en appsettings.json**  
+2. **Configurar la base de datos en appsettings.json**
+   
 "ConnectionStrings": {
   "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MetasAhorroDb;Trusted_Connection=True;"
 }
 
-3. **Ejecutar migraciones y levantar el proyecto**
+4. **Ejecutar migraciones y levantar el proyecto**
 ```bash
    dotnet ef database update
    dotnet run
