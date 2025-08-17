@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore; // <- necesario para [Index]
+using Microsoft.EntityFrameworkCore; 
 
 namespace MetasAhorro.Models
 {
-    [Index(nameof(OwnerKey))] // índice para filtrar por cookie
+    [Index(nameof(OwnerKey))] 
     public class Goal
     {
         public int Id { get; set; }
@@ -26,7 +26,6 @@ namespace MetasAhorro.Models
         [DataType(DataType.Date)]
         public DateTime Deadline { get; set; } = DateTime.Today.AddMonths(6);
 
-        // Dueño anónimo por cookie
         [Required, StringLength(64)]
         public string OwnerKey { get; set; } = "";
 
