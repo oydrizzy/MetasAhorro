@@ -33,18 +33,7 @@ Aplicación web en **ASP.NET Core Razor Pages** para gestionar y visualizar meta
 - [Bootstrap Icons](https://icons.getbootstrap.com/)  
 
 ## 📂 Estructura principal
-
-MetasAhorro/
-│── Data/ # DbContext y configuración de la base de datos
-│── Models/ # Modelos (Goal.cs)
-│── Pages/Goals/ # Razor Pages para CRUD de metas
-│ ├── Index.cshtml # Listado + resumen global
-│ ├── New.cshtml # Crear nueva meta
-│ ├── Deposit.cshtml # Depositar en una meta
-│ ├── View.cshtml # Detalle de una meta
-│── wwwroot/ # CSS, JS, imágenes y estáticos
-│── appsettings.json # Configuración de la app
-
+<img width="606" height="308" alt="image" src="https://github.com/user-attachments/assets/3328eb30-58d4-428e-b768-2dcd7bfee0b5" />
 
 ## 🛠️ Instalación y ejecución
 
@@ -61,6 +50,6 @@ MetasAhorro/
 3. **Ejecutar migraciones y levantar el proyecto**
 ```bash
    dotnet ef database update
-dotnet run
+   dotnet run
 
 
