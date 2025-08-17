@@ -60,15 +60,8 @@ MetasAhorro/
   "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=MetasAhorroDb;Trusted_Connection=True;"
 }
 
-3. Ejecutar migraciones:
-   
+3. Ejecutar el programa:
+```bash
 dotnet ef database update
-
-4. Levantar el proyecto:
-
 dotnet run
-
-
-
-
 
