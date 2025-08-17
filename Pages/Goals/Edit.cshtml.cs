@@ -51,16 +51,13 @@ namespace MetasAhorro.Pages.Goals
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // Normaliza
             Input.Title = Input.Title?.Trim() ?? string.Empty;
             Input.Deadline = Input.Deadline.Date;
 
-            // Validaciones de DataAnnotations primero
             if (!ModelState.IsValid) return Page();
 
             var ownerKey = GetOwnerKey();
 
-            // Trae con depósitos para verificar coherencias reales
             var g = await _db.Goals
                 .Include(x => x.Deposits)
                 .FirstOrDefaultAsync(x => x.Id == Input.Id && x.OwnerKey == ownerKey);
@@ -71,26 +68,20 @@ namespace MetasAhorro.Pages.Goals
                 return RedirectToPage("Index");
             }
 
-            // --- Validaciones de negocio ---
-            // 1) Inicial no puede superar el objetivo
             if (Input.InitialAmount > Input.TargetAmount)
                 ModelState.AddModelError(nameof(Input.InitialAmount), "El monto inicial no puede superar el objetivo.");
 
-            // 2) Objetivo no puede ser menor a (nuevo inicial + depósitos)
             var depositsSum = g.Deposits?.Sum(d => d.Amount) ?? 0m;
             var currentWithNewInitial = Input.InitialAmount + depositsSum;
             if (Input.TargetAmount < currentWithNewInitial)
                 ModelState.AddModelError(nameof(Input.TargetAmount),
                     $"El objetivo no puede ser menor a lo ya ahorrado con el inicial nuevo (RD$ {currentWithNewInitial:N2}).");
 
-            // 3) Fecha límite no en el pasado
             if (Input.Deadline < DateTime.Today)
                 ModelState.AddModelError(nameof(Input.Deadline), "La fecha límite no puede estar en el pasado.");
 
             if (!ModelState.IsValid) return Page();
-            // --- Fin validaciones ---
 
-            // Mapear campos permitidos
             g.Title = Input.Title;
             g.Description = Input.Description;
             g.TargetAmount = Input.TargetAmount;
