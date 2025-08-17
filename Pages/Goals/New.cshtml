@@ -1,0 +1,154 @@
+@page
+@model MetasAhorro.Pages.Goals.NewModel
+@{
+    ViewData["Title"] = "Nueva meta";
+}
+
+<div class="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl p-10 border border-gray-100">
+    <div class="mb-8 border-b pb-4 flex justify-between items-center">
+        <div>
+            <h2 class="text-3xl font-extrabold text-gray-900 flex items-center gap-2">
+                <i class="bi bi-flag-fill text-indigo-600"></i>
+                Nueva Meta
+            </h2>
+            <p class="mt-1 text-sm text-gray-500">
+                Define los detalles de tu nueva meta de ahorro.
+            </p>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Crear desde plantilla
+            </label>
+            <select id="templateSelector"
+                    class="rounded-lg border-gray-300 bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 text-sm shadow-sm px-3 py-2">
+                <option value="">Seleccionar...</option>
+                <option value="viaje">✈️ Viaje</option>
+                <option value="celular">📱 Celular</option>
+                <option value="emergencia">🚨 Emergencia</option>
+                <option value="estudios">🎓 Estudios</option>
+            </select>
+        </div>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="mb-6 p-4 rounded-lg border border-red-200 bg-red-50 text-red-800 flex items-start gap-3">
+            <i class="bi bi-x-circle-fill text-red-600 text-xl mt-0.5"></i>
+            <div>
+                <p class="font-semibold">Corrige los siguientes errores:</p>
+                <ul class="mt-1 text-sm list-disc list-inside space-y-1">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+
+    <form method="post" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                <i class="bi bi-card-text text-indigo-500"></i> Título
+            </label>
+            <input asp-for="Input.Title" id="titleInput"
+                   class="w-full rounded-lg border-gray-300 bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 text-sm shadow-sm px-3 py-2" />
+            <span asp-validation-for="Input.Title" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                <i class="bi bi-pencil-square text-purple-500"></i> Descripción
+            </label>
+            <textarea asp-for="Input.Description" id="descInput" rows="3"
+                      class="w-full rounded-lg border-gray-300 bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 text-sm shadow-sm px-3 py-2"></textarea>
+            <span asp-validation-for="Input.Description" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                <i class="bi bi-cash-coin text-green-600"></i> Objetivo (RD$)
+            </label>
+            <input asp-for="Input.TargetAmount" id="targetInput" type="number" step="0.01"
+                   class="w-full rounded-lg border-gray-300 bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 text-sm shadow-sm px-3 py-2" />
+            <span asp-validation-for="Input.TargetAmount" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                <i class="bi bi-wallet2 text-pink-500"></i> Monto inicial
+            </label>
+            <input asp-for="Input.InitialAmount" id="initialInput" type="number" step="0.01"
+                   class="w-full rounded-lg border-gray-300 bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 text-sm shadow-sm px-3 py-2" />
+            <span asp-validation-for="Input.InitialAmount" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                <i class="bi bi-calendar-date text-blue-500"></i> Inicio
+            </label>
+            <input asp-for="Input.StartDate" id="startInput" type="date"
+                   class="w-full rounded-lg border-gray-300 bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 text-sm shadow-sm px-3 py-2" />
+            <span asp-validation-for="Input.StartDate" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                <i class="bi bi-calendar-check text-teal-500"></i> Meta para
+            </label>
+            <input asp-for="Input.Deadline" id="deadlineInput" type="date"
+                   class="w-full rounded-lg border-gray-300 bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 text-sm shadow-sm px-3 py-2" />
+            <span asp-validation-for="Input.Deadline" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div class="sm:col-span-2 flex items-center gap-4 pt-4">
+            <button type="submit"
+                    class="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-lg hover:from-indigo-600 hover:to-purple-700 transition flex items-center gap-2">
+                <i class="bi bi-check-circle"></i> Guardar
+            </button>
+            <a asp-page="Index"
+               class="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-100 transition flex items-center gap-2">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.getElementById("templateSelector").addEventListener("change", function () {
+            const val = this.value;
+            const title = document.getElementById("titleInput");
+            const desc = document.getElementById("descInput");
+            const target = document.getElementById("targetInput");
+            const init = document.getElementById("initialInput");
+            const start = document.getElementById("startInput");
+            const deadline = document.getElementById("deadlineInput");
+
+            if (val === "viaje") {
+                title.value = "Viaje de vacaciones";
+                desc.value = "Ahorro para mi próximo viaje.";
+                target.value = 80000;
+                init.value = 5000;
+            } else if (val === "celular") {
+                title.value = "Nuevo Celular";
+                desc.value = "Comprar un smartphone actualizado.";
+                target.value = 30000;
+                init.value = 0;
+            } else if (val === "emergencia") {
+                title.value = "Fondo de Emergencias";
+                desc.value = "Ahorro para imprevistos médicos o gastos urgentes.";
+                target.value = 50000;
+                init.value = 10000;
+            } else if (val === "estudios") {
+                title.value = "Estudios / Educación";
+                desc.value = "Ahorro para cubrir gastos de educación.";
+                target.value = 60000;
+                init.value = 5000;
+            }
+        });
+    </script>
+}

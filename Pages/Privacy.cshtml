@@ -1,0 +1,145 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Política de privacidad";
+}
+<div class="max-w-4xl mx-auto bg-white rounded-2xl shadow p-8">
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900">@ViewData["Title"]</h1>
+        <p class="mt-1 text-sm text-gray-500">Última actualización: @DateTime.Today.ToString("dd/MM/yyyy")</p>
+    </header>
+
+    <p class="text-gray-700 mb-6">
+        En <span class="font-semibold text-gray-900">MetasAhorro</span> respetamos tu privacidad.
+        Esta política explica qué datos se recopilan, cómo los utilizamos y qué opciones tienes para controlarlos.
+    </p>
+
+    <!-- Índice -->
+    <nav class="mb-8">
+        <ul class="text-sm text-indigo-700 space-y-1">
+            <li><a href="#que-recopilamos" class="hover:underline">1. Qué datos recopilamos</a></li>
+            <li><a href="#como-usamos" class="hover:underline">2. Cómo usamos los datos</a></li>
+            <li><a href="#base-legal" class="hover:underline">3. Base legal</a></li>
+            <li><a href="#cookies" class="hover:underline">4. Cookies que utilizamos</a></li>
+            <li><a href="#conservacion" class="hover:underline">5. Conservación de datos</a></li>
+            <li><a href="#tus-derechos" class="hover:underline">6. Tus derechos</a></li>
+            <li><a href="#seguridad" class="hover:underline">7. Seguridad</a></li>
+            <li><a href="#menores" class="hover:underline">8. Menores de edad</a></li>
+            <li><a href="#cambios" class="hover:underline">9. Cambios a esta política</a></li>
+            <li><a href="#contacto" class="hover:underline">10. Contacto</a></li>
+        </ul>
+    </nav>
+
+    <section id="que-recopilamos" class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">1. Qué datos recopilamos</h2>
+        <ul class="list-disc pl-5 space-y-1 text-gray-700">
+            <li><span class="font-medium">Datos que introduces:</span> metas de ahorro (título, descripción, objetivo, fechas) y depósitos asociados.</li>
+            <li><span class="font-medium">Datos técnicos mínimos:</span> una clave anónima almacenada en una cookie para
+                identificar tu dispositivo/navegador y mostrarte únicamente tus propias metas.</li>
+        </ul>
+    </section>
+
+    <section id="como-usamos" class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">2. Cómo usamos los datos</h2>
+        <ul class="list-disc pl-5 space-y-1 text-gray-700">
+            <li>Prestar la funcionalidad de la app (crear, listar, editar y eliminar metas y depósitos).</li>
+            <li>Recordar tu sesión anónima mediante una cookie para que solo veas tus metas en ese navegador.</li>
+        </ul>
+        <p class="text-gray-700 mt-2">
+            <span class="font-medium">No</span> vendemos tus datos, ni los compartimos con terceros con fines publicitarios.
+        </p>
+    </section>
+
+    <section id="base-legal" class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">3. Base legal</h2>
+        <p class="text-gray-700">
+            Procesamos los datos en base a <span class="font-medium">interés legítimo</span> para operar la aplicación
+            y, cuando corresponda, en <span class="font-medium">ejecución del servicio</span> que solicitas al usarla.
+        </p>
+    </section>
+
+    <section id="cookies" class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-3">4. Cookies que utilizamos</h2>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left border border-gray-200 rounded-lg">
+                <thead class="bg-gray-50 text-gray-700 font-medium">
+                    <tr>
+                        <th class="px-4 py-2">Nombre</th>
+                        <th class="px-4 py-2">Tipo</th>
+                        <th class="px-4 py-2">Propósito</th>
+                        <th class="px-4 py-2">Duración</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 text-gray-700">
+                    <tr>
+                        <td class="px-4 py-2"><code>MA.OwnerKey</code></td>
+                        <td class="px-4 py-2">Esencial</td>
+                        <td class="px-4 py-2">Identificar tu navegador de forma anónima para mostrar solo tus metas.</td>
+                        <td class="px-4 py-2">Hasta 2 años</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2"><code>.AspNetCore.Antiforgery.*</code></td>
+                        <td class="px-4 py-2">Esencial</td>
+                        <td class="px-4 py-2">Proteger formularios contra ataques CSRF.</td>
+                        <td class="px-4 py-2">Sesión / corta</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-2">
+            Puedes borrar estas cookies desde la configuración de tu navegador. Si eliminas <code>MA.OwnerKey</code>, la app
+            dejará de reconocer tu dispositivo y no se mostrarán tus metas hasta que vuelvas a crearlas en ese navegador.
+        </p>
+    </section>
+
+    <section id="conservacion" class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">5. Conservación de datos</h2>
+        <p class="text-gray-700">
+            Conservamos tus metas y depósitos mientras los mantengas en la aplicación. Puedes eliminarlos en cualquier momento.
+        </p>
+    </section>
+
+    <section id="tus-derechos" class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">6. Tus derechos</h2>
+        <ul class="list-disc pl-5 space-y-1 text-gray-700">
+            <li>Acceder y exportar tu información.</li>
+            <li>Rectificar y eliminar metas y depósitos.</li>
+            <li>Oponerte o limitar ciertos tratamientos.</li>
+        </ul>
+        <p class="text-gray-700 mt-2">
+            Para ejercer estos derechos o hacer consultas, contáctanos usando los datos al final de esta página.
+        </p>
+    </section>
+
+    <section id="seguridad" class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">7. Seguridad</h2>
+        <p class="text-gray-700">
+            Aplicamos medidas razonables de seguridad (incluyendo cookies <em>HttpOnly</em> y protección CSRF) para proteger los datos.
+            Aun así, ningún sistema es 100% infalible.
+        </p>
+    </section>
+
+    <section id="menores" class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">8. Menores de edad</h2>
+        <p class="text-gray-700">
+            La aplicación no está dirigida a menores de 13 años. Si crees que hemos almacenado datos de un menor, avísanos para eliminarlos.
+        </p>
+    </section>
+
+    <section id="cambios" class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">9. Cambios a esta política</h2>
+        <p class="text-gray-700">
+            Podemos actualizar esta política para reflejar mejoras o requisitos legales. Publicaremos la versión vigente en esta misma página.
+        </p>
+    </section>
+
+    <section id="contacto">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">10. Contacto</h2>
+        <ul class="text-gray-700 space-y-1">
+            <li>Correo: <a href="mailto:hola@metasahorro.app" class="text-indigo-700 hover:underline">hola@metasahorro.app</a></li>
+            <li>Formulario: <a asp-page="/Contact" class="text-indigo-700 hover:underline">Escríbenos</a></li>
+        </ul>
+    </section>
+</div>

@@ -1,0 +1,214 @@
+@page
+@model MetasAhorro.Pages.Goals.IndexModel
+@{
+    ViewData["Title"] = "Metas de Ahorro";
+}
+
+<style>
+  .modal { display: none; }
+  .modal:target { display: block; }
+</style>
+
+@if (TempData["Flash"] is string msg && !string.IsNullOrWhiteSpace(msg))
+{
+    <div class="mb-4 rounded-xl border border-green-200 bg-green-50 text-green-800 px-4 py-3">
+        <i class="bi bi-check-circle-fill mr-2"></i>@msg
+    </div>
+}
+
+@if (Model.Items.Count == 0)
+{
+    <div class="p-10 bg-white border border-dashed border-gray-300 text-gray-500 rounded-2xl text-center shadow-sm">
+        <i class="bi bi-piggy-bank text-5xl text-indigo-500 mb-3"></i>
+        <p class="text-lg font-semibold">Aún no tienes metas creadas</p>
+        <p class="text-sm text-gray-400 mb-5">¡Crea una nueva y comienza a ahorrar! 🎯</p>
+        <a asp-page="New"
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-700 transition">
+            <i class="bi bi-plus-circle"></i> Nueva Meta
+        </a>
+    </div>
+}
+else
+{
+    <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 mb-6">
+        <div class="grid gap-6 md:grid-cols-3">
+            <div class="md:col-span-2 flex flex-col justify-center">
+                <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <i class="bi bi-speedometer2 text-indigo-600"></i> Resumen global
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="rounded-lg bg-gray-50 p-4">
+                        <p class="text-xs text-gray-500">Objetivo total</p>
+                        <p class="text-lg font-semibold text-gray-900">
+                            RD$ @Model.TotalTarget.ToString("N2", new System.Globalization.CultureInfo("es-DO"))
+                        </p>
+                    </div>
+                    <div class="rounded-lg bg-gray-50 p-4">
+                        <p class="text-xs text-gray-500">Ahorrado</p>
+                        <p class="text-lg font-semibold text-indigo-700">
+                            RD$ @Model.TotalCurrent.ToString("N2", new System.Globalization.CultureInfo("es-DO"))
+                        </p>
+                    </div>
+                    <div class="rounded-lg bg-gray-50 p-4">
+                        <p class="text-xs text-gray-500">Faltante</p>
+                        <p class="text-lg font-semibold text-fuchsia-700">
+                            RD$ @Model.TotalRemaining.ToString("N2", new System.Globalization.CultureInfo("es-DO"))
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-4 flex items-center gap-3">
+                    <span class="inline-flex items-center gap-2 text-sm text-gray-600">
+                        <i class="bi bi-graph-up-arrow text-green-600"></i>
+                        Progreso total: <span class="font-semibold text-gray-900">@Model.OverallProgressPct%</span>
+                    </span>
+                    <span class="text-sm text-gray-400">•</span>
+                    <span class="text-sm text-gray-700">@Model.Motivation</span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center">
+                <div class="relative">
+                    <canvas id="globalDonut" width="220" height="220"></canvas>
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <span class="text-xl font-bold text-gray-800">@Model.OverallProgressPct%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        @foreach (var g in Model.Items)
+        {
+            <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-6 flex flex-col border border-gray-100">
+                <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <i class="bi bi-flag-fill text-indigo-600"></i> @g.Title
+                </h2>
+
+                <div class="mt-4 text-sm text-gray-700 space-y-2">
+                    <p><i class="bi bi-bullseye text-indigo-500"></i> <span class="font-medium">Objetivo:</span> RD$ @g.TargetAmount</p>
+                    <p><i class="bi bi-cash-coin text-green-600"></i> <span class="font-medium">Actual:</span> RD$ @g.CurrentAmount</p>
+                    <p><i class="bi bi-wallet2 text-fuchsia-600"></i> <span class="font-medium">Faltante:</span> RD$ @g.Remaining</p>
+                    <p>
+                        <i class="bi bi-calendar-event text-blue-500"></i>
+                        <span class="font-medium">Cuota mensual:</span>
+                        <span class="text-indigo-600 font-semibold">RD$ @g.MonthlyNeeded</span>
+                        <br />
+                        <span class="text-gray-500 text-xs">Plazo: @g.Deadline.ToString("dd MMM yyyy")</span>
+                    </p>
+                </div>
+
+                <div class="mt-5">
+                    <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                        <div class="bg-gradient-to-r from-indigo-600 to-fuchsia-600 h-3 rounded-full" style="width:@g.ProgressPct%"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                        <i class="bi bi-graph-up text-green-600"></i> @Math.Round(g.ProgressPct)% completado
+                    </p>
+                </div>
+
+                <div class="mt-6 flex gap-3">
+                    <a asp-page="View" asp-route-id="@g.Id"
+                       class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-100 transition">
+                        <i class="bi bi-eye"></i> Ver
+                    </a>
+
+                    <a asp-page="Deposit" asp-route-id="@g.Id"
+                       class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
+                        <i class="bi bi-piggy-bank-fill"></i> Depositar
+                    </a>
+
+                    <a href="#confirm-@g.Id"
+                       class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition">
+                        <i class="bi bi-trash3"></i> Eliminar
+                    </a>
+                </div>
+            </div>
+
+            <div id="confirm-@g.Id" class="modal fixed inset-0 z-50">
+                <a href="#" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></a>
+
+                <div class="relative mx-auto mt-24 w-full max-w-md px-4">
+                    <div class="rounded-2xl bg-white shadow-2xl border border-gray-100 overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-start gap-3">
+                                <i class="bi bi-exclamation-triangle-fill text-red-600 text-2xl shrink-0"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Eliminar meta</h3>
+                                    <p class="mt-1 text-sm text-gray-600">
+                                        ¿Seguro que quieres eliminar <span class="font-medium text-gray-900">“@g.Title”</span>?
+                                        Esta acción no se puede deshacer.
+                                    </p>
+                                    <ul class="mt-3 text-xs text-gray-500 space-y-1">
+                                        <li>Objetivo: <span class="font-medium text-gray-900">RD$ @g.TargetAmount</span></li>
+                                        <li>Ahorrado: <span class="font-medium text-gray-900">RD$ @g.CurrentAmount</span></li>
+                                        <li>Faltante: <span class="font-medium text-gray-900">RD$ @g.Remaining</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 flex gap-3">
+                                <form method="post"
+                                      asp-page-handler="Delete"
+                                      asp-route-id="@g.Id"
+                                      asp-antiforgery="true"
+                                      class="flex-1">
+                                    <button type="submit"
+                                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition">
+                                        <i class="bi bi-trash3"></i> Sí, eliminar
+                                    </button>
+                                </form>
+
+                                <a href="#"
+                                   class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-semibold hover:bg-gray-100 transition">
+                                    Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @section Scripts{
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const saved = @Model.TotalCurrent.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            const remaining = @Model.TotalRemaining.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            const ctx = document.getElementById('globalDonut').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ahorrado', 'Faltante'],
+                    datasets: [{
+                        data: [saved, remaining],
+                        backgroundColor: ['#4f46e5', '#e5e7eb'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '65%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const value = context.raw ?? 0;
+                                    return new Intl.NumberFormat('es-DO', {
+                                        style: 'currency',
+                                        currency: 'DOP',
+                                        minimumFractionDigits: 2
+                                    }).format(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    }
+}

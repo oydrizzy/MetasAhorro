@@ -1,0 +1,33 @@
+@page
+@model MetasAhorro.Pages.ContactModel
+@{
+    ViewData["Title"] = "Contacto";
+}
+
+<div class="max-w-3xl mx-auto bg-white shadow rounded-2xl p-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Contacto</h1>
+    <p class="text-gray-700 mb-6">
+        Si tienes dudas, sugerencias o necesitas soporte, completa el siguiente formulario 
+        y nos pondremos en contacto contigo lo antes posible.
+    </p>
+
+    <form method="post" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input type="text" name="nombre" class="w-full mt-1 border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500" required />
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+            <input type="email" name="correo" class="w-full mt-1 border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500" required />
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Mensaje</label>
+            <textarea name="mensaje" rows="4" class="w-full mt-1 border rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500" required></textarea>
+        </div>
+        <div>
+            <button type="submit" class="px-5 py-2.5 bg-indigo-600 text-white font-medium rounded-xl shadow hover:bg-indigo-700 transition">
+                Enviar mensaje
+            </button>
+        </div>
+    </form>
+</div>

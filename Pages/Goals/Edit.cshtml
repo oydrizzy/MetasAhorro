@@ -1,0 +1,83 @@
+@page "{id:int}"
+@model MetasAhorro.Pages.Goals.EditModel
+@{
+    ViewData["Title"] = "Editar meta";
+}
+
+<div class="max-w-3xl mx-auto bg-white shadow rounded-2xl p-8">
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="mb-6 rounded-xl border border-red-200 bg-red-50 text-red-800 px-4 py-3 flex items-start gap-3">
+            <i class="bi bi-exclamation-circle-fill text-red-600 text-xl mt-0.5"></i>
+            <div>
+                <p class="font-semibold">Por favor corrige los errores en el formulario:</p>
+                <ul class="list-disc list-inside text-sm mt-1 space-y-1">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Editar meta</h1>
+        <div class="flex gap-2">
+            <a asp-page="View" asp-route-id="@Model.Input.Id"
+               class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <form method="post" asp-antiforgery="true" class="space-y-6">
+        <input type="hidden" asp-for="Input.Id" />
+
+        <div>
+            <label asp-for="Input.Title" class="block text-sm font-medium text-gray-700">Título</label>
+            <input asp-for="Input.Title" class="mt-1 w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" />
+            <span asp-validation-for="Input.Title" class="text-sm text-red-600"></span>
+        </div>
+
+        <div>
+            <label asp-for="Input.Description" class="block text-sm font-medium text-gray-700">Descripción</label>
+            <textarea asp-for="Input.Description" rows="3" class="mt-1 w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+            <span asp-validation-for="Input.Description" class="text-sm text-red-600"></span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+                <label asp-for="Input.TargetAmount" class="block text-sm font-medium text-gray-700">Objetivo (RD$)</label>
+                <input asp-for="Input.TargetAmount" class="mt-1 w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" />
+                <span asp-validation-for="Input.TargetAmount" class="text-sm text-red-600"></span>
+            </div>
+            <div>
+                <label asp-for="Input.InitialAmount" class="block text-sm font-medium text-gray-700">Inicial (RD$)</label>
+                <input asp-for="Input.InitialAmount" class="mt-1 w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" />
+                <span asp-validation-for="Input.InitialAmount" class="text-sm text-red-600"></span>
+            </div>
+            <div>
+                <label asp-for="Input.Deadline" class="block text-sm font-medium text-gray-700">Fecha límite</label>
+                <input asp-for="Input.Deadline" type="date" class="mt-1 w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" />
+                <span asp-validation-for="Input.Deadline" class="text-sm text-red-600"></span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <button type="submit"
+                    class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white bg-indigo-600 hover:bg-indigo-700">
+                <i class="bi bi-save2"></i> Guardar cambios
+            </button>
+            <a asp-page="View" asp-route-id="@Model.Input.Id"
+               class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

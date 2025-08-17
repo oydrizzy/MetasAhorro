@@ -1,0 +1,53 @@
+@page "{id:int}"
+@model MetasAhorro.Pages.Goals.DepositModel
+
+<div class="max-w-2xl mx-auto bg-white shadow-xl rounded-2xl p-10 border border-gray-100">
+    <div class="mb-8 border-b pb-4">
+        <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
+            <i class="bi bi-wallet2 text-indigo-600"></i>
+            Nuevo Depósito <span class="text-indigo-600">— @Model.Goal?.Title</span>
+        </h2>
+        <p class="mt-2 text-sm text-gray-500">
+            Registra un nuevo aporte a tu meta de ahorro.  
+        </p>
+    </div>
+
+    <form method="post" class="space-y-6">
+        <input type="hidden" asp-for="Input.GoalId" />
+
+       
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                <i class="bi bi-cash-coin text-green-500"></i> Monto
+            </label>
+            <input asp-for="Input.Amount" type="number" step="0.01"
+                   class="w-full rounded-lg border-gray-300 bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 text-sm shadow-sm px-3 py-2" />
+            <span asp-validation-for="Input.Amount" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                <i class="bi bi-pencil-square text-purple-500"></i> Nota
+            </label>
+            <input asp-for="Input.Note"
+                   class="w-full rounded-lg border-gray-300 bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 text-sm shadow-sm px-3 py-2" />
+            <span asp-validation-for="Input.Note" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div class="flex items-center gap-4 pt-4">
+            <button type="submit"
+                    class="px-6 py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-lg hover:from-indigo-600 hover:to-purple-700 transition flex items-center gap-2">
+                <i class="bi bi-check-circle"></i> Guardar
+            </button>
+            <a asp-page="View" asp-route-id="@Model.Goal?.Id"
+               class="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-100 transition flex items-center gap-2">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
